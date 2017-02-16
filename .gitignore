@@ -1,0 +1,6 @@
+*.csv
+*.txt
+*/output
+*/spark-warehouse
+*/query*
+*/.idea
