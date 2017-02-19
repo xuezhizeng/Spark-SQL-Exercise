@@ -22,13 +22,25 @@ childbirthDF.createOrReplaceTempView("Births")
 year = input("The year (from 1880 to 2014): ")
 start = time.time()
 totalBirthDF = sq.sql("Select SUM(Count) from Births WHERE Year='" + str(year) + "'")
-totalBirthDF.show()
+# totalBirthDF.show()
+totalBirthDF.repartition(1).\
+    write.\
+    mode("overwrite").\
+    format("com.databricks.spark.csv").\
+    option("header", "true").\
+    save("query1")
 end = time.time()
 print("query1 time: " + str(end - start))
 
 start = time.time()
 totalBirthByGenderDF = sq.sql("Select Gender, SUM(Count) from Births WHERE Year='" + str(year) + "' GROUP BY Gender")
-totalBirthByGenderDF.show()
+totalBirthByGenderDF.repartition(1). \
+    write. \
+    mode("overwrite"). \
+    format("com.databricks.spark.csv"). \
+    option("header", "true"). \
+    save("query2")
+# totalBirthByGenderDF.show()
 end = time.time()
 print("query2 time: " + str(end - start))
 
@@ -38,7 +50,13 @@ top5DF = sq.sql(
     SELECT Name, SUM(Count) AS NUM FROM Births WHERE Year=""" + str(year) + """ GROUP BY Name ORDER BY NUM DESC LIMIT 5
     """
 )
-top5DF.show()
+top5DF.repartition(1). \
+    write. \
+    mode("overwrite"). \
+    format("com.databricks.spark.csv"). \
+    option("header", "true"). \
+    save("query3")
+# top5DF.show()
 end = time.time()
 print("query3 time: " + str(end - start))
 
@@ -46,6 +64,12 @@ start = time.time()
 Name = input("The name (like Mary, John): ")
 oneNameDF = sq.sql("SELECT Name, SUM(CAST(Count AS INT)) FROM Births WHERE Name='" + Name\
                    + "' GROUP BY Name")
-oneNameDF.show()
+oneNameDF.repartition(1). \
+    write. \
+    mode("overwrite"). \
+    format("com.databricks.spark.csv"). \
+    option("header", "true"). \
+    save("query4")
+# oneNameDF.show()
 end = time.time()
 print("query3 time: " + str(end - start))

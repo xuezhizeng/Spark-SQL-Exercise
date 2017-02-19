@@ -1,0 +1,16 @@
+# Description
+
+There are three folders, responsible for different queries.
+To use those applications, you should have Spark at first.
+
+# word_count
+
+The app.py is the application. "output" is the count result. "rowWordCountData.txt" is the data source.
+
+# babyNames
+
+"NationalNames.csv" is the data souce. "babyNames.py" is the application. query1-4 include the querying result which in csv format.
+
+# Motor
+
+"NYPD_Motor_Vehicle_Collisions.csv" is the data source. "app.py" is the application. query1-4 include the querying result which in csv format.
